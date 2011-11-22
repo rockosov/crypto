@@ -5,7 +5,13 @@ import config as conf
 
 __author__ = "rockosov@gmail.com"
 
+##
+# @brief описывает блоки замены и методы работы с ними 
 class Block ( object ):
+	##
+	# @brief конструктор
+	#
+	# @param num - номер блока ( 1, 2, 3 )
 	def __init__( self, num ):
 		if num == 1:
 			self.content = conf.FIRST_BLOCK
@@ -27,14 +33,22 @@ class Block ( object ):
 			self.a_output.append( self.substitution( i ) )
 
 		self.diff_table = []
+		return
 
+	##
+	# @brief печатает блок
 	def print_block( self ):
 		print "Blocks", self.num, "[", self.var_num, "]:"
 		for i in self.content:
 			for j in i:
 				stdout.write(str(j) + " ")
-			print
+		print
 
+	##
+	# @brief печатает таблицу вероятностей появления дифференциала C от дифференциала A
+	#
+	# @return
+	#	@retval ValueError - если таблица пуста
 	def print_diff_table( self ):
 		if self.diff_table == []:
 			raise ValueError, "diff_table is empty!"
@@ -43,7 +57,14 @@ class Block ( object ):
 			for j in i:
 				print "%02d" % j ,
 			print
+		return
 	
+	##
+	# @brief выполняет непосредственно замену
+	#
+	# @param bits - вход функции замены
+	#
+	# @return результат
 	def substitution( self, bits ):
 		bits &= 15 # если поступили биты, длина которых больше 4
 		if self.num == 3:
@@ -51,6 +72,9 @@ class Block ( object ):
 		else:
 			return self.content[bits >> 3][bits & 7]
 
+	##
+	# @brief строит таблицу вероятностей появления dС от dA
+	#
 	def build_diff_table( self ):
 		# подготовим место
 		self.diff_table.extend( range( 16 ) )
@@ -69,7 +93,15 @@ class Block ( object ):
 				delta_c = c1 ^ c2
 				# запомним
 				self.diff_table[delta_a][delta_c] += 1
+		return
 
+	##
+	# @brief ищет максимальные значения вероятности
+	#
+	# @return результат работы
+	#	@retval out - представляет собой список вида [[x11, x21, x31], ..., [x1n, x2n, x3n]],
+	#			где x1i = dA, x2i = dC, x3i = maximum
+	#	@retval ValueError - если таблица пуста
 	def max_in_diff_table( self ):
 		result = list()
 		if self.diff_table == []:
@@ -95,6 +127,7 @@ class Permutation ( object ):
 		else:
 			raise ValueError, "Unknown name of permutation"
 		self.inverse = self.__inverse( self.direct )
+		return
 
 	def __inverse( self, direct):
 		result = range( max( direct ) )
@@ -104,3 +137,19 @@ class Permutation ( object ):
 			result[ direct[ i ] - 1 ].append(i + 1)
 		return result
 
+	def make_permutation( self, bits, mode ):
+		result = 0
+		direct_size = len( self.direct )
+		inverse_size = len( self.inverse )
+		if mode == 1:
+			# используем прямую перестановку
+			for i in range( direct_size ):
+				result += ( ( bits >> ( inverse_size - self.direct[ i ] ) ) & 1 ) << ( direct_size - i - 1 )
+		elif mode == -1:
+			# используем обратную перестановку	
+			for i in range( len( self.inverse ) ):
+				result += ( ( bits >> ( direct_size - self.inverse[ i ][ 0 ] ) ) & 1 ) << ( inverse_size - i - 1 )
+		else:
+			raise ValueError, "Invalid mode of permutation"
+		return result
+	
