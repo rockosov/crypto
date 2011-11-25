@@ -50,12 +50,25 @@ def main():
 	print E_perm.direct
 	print "INVERSE"
 	print E_perm.inverse
+	result = 12
+	print bin( result )
+	result = E_perm.make_permutation( result, 1 )
+	print bin( result )
+	result = E_perm.make_permutation( result, -1 )
+	print bin( result )
 	print "P-permutation:"
 	print "DIRECT"
 	print P_perm.direct
 	print "INVERSE"
 	print P_perm.inverse
 	print
+
+	variants = list()
+	variants.append( list( f_block_max ) )
+	variants.append( list( s_block_max ) )
+	variants.append( list( t_block_max ) )
+	print variants
+	print search_valid_bits( variants, E_perm.inverse )
 
 if __name__ == "__main__":
 	sys.exit(main())

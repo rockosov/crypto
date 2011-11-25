@@ -5,6 +5,12 @@ import config as conf
 
 __author__ = "rockosov@gmail.com"
 
+def get_bit( source, position ):
+	return ( source >> position ) & 1
+
+def set_bit( destination, position, bit ):
+	return destination | ( bit << position )
+
 ##
 # @brief описывает блоки замены и методы работы с ними 
 class Block ( object ):
@@ -144,12 +150,42 @@ class Permutation ( object ):
 		if mode == 1:
 			# используем прямую перестановку
 			for i in range( direct_size ):
-				result += ( ( bits >> ( inverse_size - self.direct[ i ] ) ) & 1 ) << ( direct_size - i - 1 )
+				result = set_bit( result, ( direct_size - i - 1 ), get_bit( bits, ( inverse_size - self.direct[ i ] ) ) )
 		elif mode == -1:
 			# используем обратную перестановку	
 			for i in range( len( self.inverse ) ):
-				result += ( ( bits >> ( direct_size - self.inverse[ i ][ 0 ] ) ) & 1 ) << ( inverse_size - i - 1 )
+				result = set_bit( result, ( inverse_size - i - 1 ), get_bit( bits, ( direct_size - self.inverse[ i ][ 0 ] ) ) )
 		else:
 			raise ValueError, "Invalid mode of permutation"
 		return result
-	
+
+##
+# @brief ищет правильные сочетания битов дифференциалов dA и dC
+#
+# @param variants - список, в котором содеражтся варианты диференциалов 1, 2, 3 блоков
+#			в виде: [ [ варианты 1 блока ], [ варианты 2 блока ], [ варианты 3 блока ] ]
+# @param rules - список правил, содержащий номера битов, какие нужно сравнивать
+#
+# @return список, который содержит правильные сочетания битов
+def search_valid_bits( variants, rules ):
+	result = list()
+	first, second, third = variants
+	flag = 0
+	for i in first:
+		for j in second:
+			for k in third:
+				probable = ( i[ 0 ] << 8 ) + ( j[ 0 ] << 4 ) + ( k[ 0 ] )
+				for current_bits in rules:
+					if len( current_bits ) > 1:
+						res = 1
+						for bit_num in current_bits:
+							res &= get_bit( probable, conf.EXT_HALF_BLOCK_SIZE - bit_num )
+						if res != 1:
+							flag = 0
+							break
+					flag = 1
+				if flag == 1:
+					result.append( i )
+					result.append( j )
+					result.append( k )
+	return result
