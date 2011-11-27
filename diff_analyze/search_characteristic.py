@@ -67,8 +67,21 @@ def main():
 	variants.append( list( f_block_max ) )
 	variants.append( list( s_block_max ) )
 	variants.append( list( t_block_max ) )
-	print variants
-	print search_valid_bits( variants, E_perm.inverse )
+	print "variants:", variants
+	valid = search_valid_bits( variants, E_perm.inverse )
+	print "valid bits:", valid
+	
+	if valid == []:
+		print "Cant't search valid bits!"
+		sys.exit()
+	dA = ( valid[ 0 ][ 0 ] << 8 ) | ( valid[ 1 ][ 0 ] << 4 ) | ( valid[ 2 ][ 0 ] )
+	dC = ( valid[ 0 ][ 1 ] << 5 ) | ( valid[ 1 ][ 1 ] << 2 ) | ( valid[ 2 ][ 1 ] )
+	print "dA =", bin( dA ), " dC =", bin( dC )
+	dXR = E_perm.make_permutation( dA, -1 )
+	dXL = P_perm.make_permutation( dC, 1 )
+	print "Characteristic:"
+	print "dXR ( dYR ) =", bin( dXR ), " dXL =", bin( dXL )
+
 
 if __name__ == "__main__":
 	sys.exit(main())

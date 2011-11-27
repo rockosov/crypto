@@ -2,14 +2,9 @@
 
 from sys import stdout
 import config as conf
+import bits_ops
 
 __author__ = "rockosov@gmail.com"
-
-def get_bit( source, position ):
-	return ( source >> position ) & 1
-
-def set_bit( destination, position, bit ):
-	return destination | ( bit << position )
 
 ##
 # @brief описывает блоки замены и методы работы с ними 
@@ -150,11 +145,11 @@ class Permutation ( object ):
 		if mode == 1:
 			# используем прямую перестановку
 			for i in range( direct_size ):
-				result = set_bit( result, ( direct_size - i - 1 ), get_bit( bits, ( inverse_size - self.direct[ i ] ) ) )
+				result = bits_ops.set_bit( result, ( direct_size - i - 1 ), bits_ops.get_bit( bits, ( inverse_size - self.direct[ i ] ) ) )
 		elif mode == -1:
 			# используем обратную перестановку	
 			for i in range( len( self.inverse ) ):
-				result = set_bit( result, ( inverse_size - i - 1 ), get_bit( bits, ( direct_size - self.inverse[ i ][ 0 ] ) ) )
+				result = bits_ops.set_bit( result, ( inverse_size - i - 1 ), bits_ops.get_bit( bits, ( direct_size - self.inverse[ i ][ 0 ] ) ) )
 		else:
 			raise ValueError, "Invalid mode of permutation"
 		return result
@@ -177,10 +172,12 @@ def search_valid_bits( variants, rules ):
 				probable = ( i[ 0 ] << 8 ) + ( j[ 0 ] << 4 ) + ( k[ 0 ] )
 				for current_bits in rules:
 					if len( current_bits ) > 1:
-						res = 1
+						res = bits_ops.get_bit( probable, conf.EXT_HALF_BLOCK_SIZE - current_bits[ 0 ] )
 						for bit_num in current_bits:
-							res &= get_bit( probable, conf.EXT_HALF_BLOCK_SIZE - bit_num )
-						if res != 1:
+							tmp = bits_ops.get_bit( probable, conf.EXT_HALF_BLOCK_SIZE - bit_num )
+							if tmp != res:
+								res = -1
+						if res < 0:
 							flag = 0
 							break
 					flag = 1
