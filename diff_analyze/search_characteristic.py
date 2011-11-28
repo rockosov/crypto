@@ -4,7 +4,6 @@ from blocks import *
 __author__ = "rockosov@gmail.com"
 
 def main():
-	
 	f_block = Block( 1 )
 	s_block = Block( 2 ) 
 	t_block = Block( 3 )
@@ -73,7 +72,7 @@ def main():
 	
 	if valid == []:
 		print "Cant't search valid bits!"
-		sys.exit()
+		return -1
 	dA = ( valid[ 0 ][ 0 ] << 8 ) | ( valid[ 1 ][ 0 ] << 4 ) | ( valid[ 2 ][ 0 ] )
 	dC = ( valid[ 0 ][ 1 ] << 5 ) | ( valid[ 1 ][ 1 ] << 2 ) | ( valid[ 2 ][ 1 ] )
 	print "dA =", bin( dA ), " dC =", bin( dC )
@@ -82,6 +81,8 @@ def main():
 	print "Characteristic:"
 	print "dXR ( dYR ) =", bin( dXR ), " dXL =", bin( dXL )
 
+def search():
+	main()
 
 if __name__ == "__main__":
 	sys.exit(main())
