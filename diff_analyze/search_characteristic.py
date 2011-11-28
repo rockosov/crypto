@@ -3,7 +3,7 @@ from blocks import *
 
 __author__ = "rockosov@gmail.com"
 
-def main():
+def search():
 	f_block = Block( 1 )
 	s_block = Block( 2 ) 
 	t_block = Block( 3 )
@@ -81,8 +81,10 @@ def main():
 	print "Characteristic:"
 	print "dXR ( dYR ) =", bin( dXR ), " dXL =", bin( dXL )
 
-def search():
-	main()
+	return f_block, s_block, t_block, E_perm, P_perm
+
+def main():
+	search()
 
 if __name__ == "__main__":
-	sys.exit(main())
+	sys.exit( main() )

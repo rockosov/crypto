@@ -8,10 +8,10 @@ import sys
 
 def main():
 	print "Try to search characteristic..."
-	sc.search()
+	search_result = sc.search()
 	print "DONE!\n"
 	print "Try to search keys..."
-	sk.search()
+	sk.search( search_result )
 	print "DONE!"
 
 if __name__ == "__main__":
