@@ -1,6 +1,9 @@
 # coding: utf8
 
-from sys import stdout
+from sys import stdout, path
+
+path.append( "../" )
+
 import config as conf
 import bits_ops
 

@@ -11,8 +11,12 @@ def main():
 	search_result = sc.search()
 	print "DONE!\n"
 	print "Try to search keys..."
-	sk.search( search_result )
+	keys = sk.search( search_result )
 	print "DONE!"
+	print "Try to search right key..."
+	key = sk.search_right_key( keys )
+	print "DONE!"
+	print "Right key is", bin( key )
 
 if __name__ == "__main__":
 	sys.exit(main())
