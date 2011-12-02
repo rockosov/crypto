@@ -1,12 +1,15 @@
 import sys
-from blocks import *
+from blocks_internal import *
+from blocks import Permutation
+
+sys.path.append( "../" )
 
 __author__ = "rockosov@gmail.com"
 
 def search():
-	f_block = Block( 1 )
-	s_block = Block( 2 ) 
-	t_block = Block( 3 )
+	f_block = Block_Internal( 1 )
+	s_block = Block_Internal( 2 ) 
+	t_block = Block_Internal( 3 )
 
 	print "Print substitution blocks:"
 	f_block.print_block()

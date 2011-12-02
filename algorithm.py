@@ -4,8 +4,6 @@ __author__ = "rockosov@gmail.com"
 
 import sys
 
-sys.path.append( "./diff_analyze" )
-
 import blocks
 import bits_ops
 import config as cfg
