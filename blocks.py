@@ -1,6 +1,6 @@
 # coding: utf8
 
-from sys import stdout, path
+from sys import stdout
 
 import config as conf
 import bits_ops
