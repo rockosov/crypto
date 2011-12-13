@@ -102,4 +102,29 @@ class Block_Internal( blocks.Block ):
 					if i != 0 and j != 0:
 						result.append( ( i, j, self.statistics[ i ][ j ] ) )
 		return result
-				
+
+##
+# @brief описывает блоки перестановки и специфичные им методы в рамках линейного анализа
+class Permutation_Internal( blocks.Permutation ):
+	##
+	# @brief производит перестановку в контексте порядка битов
+	#
+	# @param bits_order	[ in ] - порядок битов, которые нужно переставить
+	# @param mode		[ in ] - режим перестановки: 1 - прямая, -1 - обратная
+	#
+	# @return переставленный порядок входных битов
+	def make_permutation_in_bit_order( self, bits_order, mode ):
+		result = list()
+		if mode == 1:
+			# используем прямую перестановку
+			for i in self.direct:
+				result.append( bits_order[ i - 1 ] )
+		elif mode == -1:
+			# используем обратную перестановку
+			for i in range( len( self.inverse ) ):
+				result.append( list() )
+				for j in self.inverse[ i ]:
+					result[ i ].append( bits_order[ j - 1 ] )
+		else:
+			raise ValueError, "Invalid mode of permutation"
+		return result
