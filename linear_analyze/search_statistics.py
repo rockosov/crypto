@@ -7,7 +7,7 @@ sys.path.append( "../" )
 
 import blocks_internal
 
-def main():
+def search():
 	first_block = blocks_internal.Block_Internal( 1 )
 	second_block = blocks_internal.Block_Internal( 2 )
 	third_block = blocks_internal.Block_Internal( 3 )
@@ -42,9 +42,21 @@ def main():
 	third_block.build_statistics()
 	print third_block.statistics
 
-	print first_block.get_good_stat()
-	print second_block.get_good_stat()
-	print third_block.get_good_stat()
+	print "\nFirst block good statistics:"
+	fb_stat = first_block.get_good_stat()
+	print fb_stat
+	print "\nSecond block good statistics:"
+	sb_stat = second_block.get_good_stat()
+	print sb_stat
+	print "\nThird block good statistics:"
+	tb_stat = third_block.get_good_stat()
+	print tb_stat
+	
+	return fb_stat, sb_stat, tb_stat
+
+def main():
+	search()
+	return
 
 if __name__ == "__main__":
 	sys.exit( main() )
