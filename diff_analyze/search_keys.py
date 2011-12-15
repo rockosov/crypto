@@ -133,17 +133,12 @@ def search_right_key( keys ):
 	plain_text = ( infoXL[ 0 ][ 0 ] << conf.HALF_BLOCK_SIZE ) | ( infoXR[ 0 ][ 0 ] )
 	cipher_text = ( infoYL[ 0 ][ 0 ] << conf.HALF_BLOCK_SIZE ) | ( infoYR[ 0 ][ 0 ] )
 	
-	print bin( infoXL[ 0 ][ 0 ] ), bin( infoXR[ 0 ][ 0 ] )
-	print bin( plain_text )
-	print bin( infoYL[ 0 ][ 0 ] ), bin( infoYR[ 0 ][ 0 ] )
-	print bin( cipher_text )
-
 	result_key = 0
 	for current_key in  keys:
 		current_cipher_text = algorithm.encrypt( plain_text, current_key )
 		if current_cipher_text == cipher_text:
 			result_key = current_key
-			break
+			print "result_key =", result_key
 	if result_key == 0:
 		print "Can't find right key!"
 
