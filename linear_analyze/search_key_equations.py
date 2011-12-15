@@ -1,4 +1,4 @@
-# coding = utf-8
+# coding=utf-8
 
 __author__ = "rockosov@gmail.com"
 
@@ -8,6 +8,12 @@ sys.path.append( "../" )
 import config as cfg
 import bits_ops as bops
 
+##
+# @brief получает пары открытый текст - шифр-текст из файла save.txt
+#
+# @param filename	[ in ] - имя файла
+#
+# @return список таких пар
 def get_texts( filename ):
 	try:
 		save = open( filename, "r" )
@@ -34,6 +40,14 @@ def get_texts( filename ):
 	save.close()
 	return out
 
+##
+# @brief ищет количество таких текстов, что Xi + Yi = 0
+#
+# @param texts		[ in ] - список пар X-Y
+# @param analogs	[ in ] - аналоги
+# @param NTexts		[ in ] - общее количество текстов
+#
+# @return скорректированные аналоги 
 def search_num_right_texts( texts, analogs, NTexts ):
 	analogs_with_num = list()
 	for analog in analogs:
@@ -49,6 +63,13 @@ def search_num_right_texts( texts, analogs, NTexts ):
 				
 	return analogs_with_num
 
+##
+# @brief ищет уравнения, содержащие K
+#
+# @param analogs	[ in ] - скорректированные аналоги
+# @param NTexts		[ in ] - количество текстов всего
+#
+# @return 
 def search_equations( analogs, NTexts ):
 	equations = list()
 	for current in analogs:
@@ -71,6 +92,12 @@ def search_equations( analogs, NTexts ):
 	return equations
 			
 
+##
+# @brief поиск уравнений с K 
+#
+# @param analogs	[ in ] - аналоги всех блоков
+#
+# @return список уравнений
 def search( analogs ):
 	fb_analogs, sb_analogs, tb_analogs = analogs
 	equations = list()

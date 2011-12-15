@@ -48,6 +48,15 @@ class Block_Internal( blocks.Block ):
 					self.statistics[ i ][ j ] = 0
 		return
 		
+	##
+	# @brief получает значени Q для фиксированных X, Y, alpha, beta
+	#
+	# @param X		[ in ] - pass
+	# @param Y		[ in ] - pass
+	# @param alfa		[ in ] - pass
+	# @param beta		[ in ] - pass
+	#
+	# @return 
 	def __get_stat( self, X, Y, alfa, beta ):
 		bits_X = range( 4 )[::-1]
 		if self.num != 3:
@@ -62,6 +71,8 @@ class Block_Internal( blocks.Block ):
 
 		return result
 	
+	##
+	# @brief build_statistics для 1 и 2 блоков
 	def __build_statistics_1_2( self ):
 		for alfa in range( 16 ):
 			for beta in range( 8 ):
@@ -74,6 +85,8 @@ class Block_Internal( blocks.Block ):
 				self.statistics[ alfa ][ beta ] /= 16.
 		return
 	
+	##
+	# @brief build_statistics для 3 блока
 	def __build_statistics_3( self ):
 		for alfa in range( 16 ):
 			for beta in range( 4 ):
@@ -86,12 +99,18 @@ class Block_Internal( blocks.Block ):
 				self.statistics[ alfa ][ beta ] /= 16.
 		return
 
+	##
+	# @brief получает статистику блока с вероятностями того, что Q=0
 	def build_statistics( self ):
 		if self.num != 3:
 			return self.__build_statistics_1_2()
 		else:
 			return self.__build_statistics_3()
 	
+	##
+	# @brief считает статистику, полезную для нас ( то есть максимально отклоняющуюся от 0.5 )
+	#
+	# @return статистику в виде [ ( alpha, beta, stat )...() ]
 	def get_good_stat( self ):
 		result = list()
 		for i in range( len( self.statistics ) ):

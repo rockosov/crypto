@@ -1,4 +1,4 @@
-# coding = utf-8
+# coding=utf-8
 
 __author__ = "rockosov@gmail.com"
 
@@ -8,6 +8,15 @@ sys.path.append( "../" )
 import blocks_internal
 import bits_ops as bos
 
+##
+# @brief получает аналоги и объединяет их со статистикой 
+#
+# @param with_alpha		[ in ] - первый операнд левой части уравнения
+# @param with_beta		[ in ] - второй операнд левой части уравнения
+# @param key_bits		[ in ] - правай часть уравнения
+# @param stats			[ in ] - статистика
+#
+# @return 
 def get_analogs( with_alpha, with_beta, key_bits, stats ):
 	left1 = list()
 	left2 = list()
@@ -33,6 +42,13 @@ def get_analogs( with_alpha, with_beta, key_bits, stats ):
 		out.append( result )
 	return out
 
+##
+# @brief сугубо специфичная функция, конвертирующая список вида [ [X1]...[ Xn ] ]
+#			в список вида [ X1...Xn ]
+#
+# @param target		[ in ] - целевой список
+#
+# @return результирующий список
 def convert_deap_list( target ):
 	result = list()
 	for i in target:
@@ -40,9 +56,23 @@ def convert_deap_list( target ):
 			result.append( j )
 	return result
 
+##
+# @brief считает общую вероятность того, что  Q = 0
+#
+# @param p1	[ in ] - первая вероятность
+# @param p2	[ in ] - вторая вероятность
+#
+# @return общую вероятность 
 def join_likelihood( p1, p2 ):
 	return ( 1 - p1 - p2 + 2*p1*p2 )
 
+##
+# @brief объединяет аналоги
+#	 FIXME: пока специфично только для 1 и 3 раунда
+# @param x	[ in ] - аналоги
+# @param y	[ in ] - аналоги
+#
+# @return объединенные аналоги с посчитанными вероятностями
 def join_analogs( x, y ):
 	result = list()
 	for i in range( len( x ) ):
@@ -53,6 +83,12 @@ def join_analogs( x, y ):
 		result.append( ( left1, left2, right, stat ) )
 	return result
 
+##
+# @brief ищет общие аналоги ( 1 + 3 раунды )
+#
+# @param statistics		[ in ] - статистика по всем блокам
+#
+# @return аналоги
 def search( statistics ):
 	fb_stat, sb_stat, tb_stat = statistics 
 	E_perm = blocks_internal.Permutation_Internal( "E" )

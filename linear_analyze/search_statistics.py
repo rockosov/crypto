@@ -1,4 +1,4 @@
-# coding = utf-8
+# coding=utf-8
 
 __author__ = "rockosov@gmail.com"
 
@@ -7,6 +7,10 @@ sys.path.append( "../" )
 
 import blocks_internal
 
+##
+# @brief ищет статистику по каждому блоку замены 
+#
+# @return кортеж со статистикой
 def search():
 	first_block = blocks_internal.Block_Internal( 1 )
 	second_block = blocks_internal.Block_Internal( 2 )

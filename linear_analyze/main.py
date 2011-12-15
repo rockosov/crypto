@@ -1,4 +1,4 @@
-# coding = utf-8
+# coding=utf-8
 
 __author__ = "rockosov@gmail.com"
 
@@ -26,9 +26,8 @@ def main():
 
 	texts = ske.get_texts( cfg.FILENAME_COR_TEXTS )
 
-	print "Key is:",
-	print bops.full_bin( skey.search_right_key( texts[ 0 ] ), cfg.KEY_SIZE )
-	print "texts:", texts[ :2 ]
+	key = bops.full_bin( skey.search_right_key( texts[ 0 ] ), cfg.KEY_SIZE )
+	print "Key is:", key
 
 	return
 

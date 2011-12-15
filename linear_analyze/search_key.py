@@ -1,4 +1,4 @@
-# coding = utf-8
+# coding=utf-8
 
 __author__ = "rockosov@gmail.com"
 
@@ -9,6 +9,15 @@ import config as cfg
 import bits_ops as bops
 import algorithm
 
+##
+# @brief участвует в построении списка всех возможных ключей
+#	добавляет бит ко всем ключам в списке
+#
+# @param bit			[ in ] - новый бит в ключах
+# @param bit_num		[ in ] - номер бита
+# @param possible_keys		[ in ] - список ключей
+#
+# @return модифицированный список ключей
 def add_bit_in_possible_keys( bit, bit_num, possible_keys ):
 	if possible_keys == []:
 		if bit == ".":
@@ -32,6 +41,12 @@ def add_bit_in_possible_keys( bit, bit_num, possible_keys ):
 			
 	return possible_keys
 
+##
+# @brief ищет правильный ключ
+#
+# @param text	[ in ] - пример пары открытый текст - шифр-текст
+#
+# @return  ключ
 def search_right_key( text ):
 	key = 0
 	possible_keys = list()
@@ -49,7 +64,7 @@ def search_right_key( text ):
 			current_cipher_text = algorithm.encrypt( plain_text, current_key )
 			if current_cipher_text == cipher_text:
 				key = current_key
-				print key
+				print "result key:", bops.full_bin( key, cfg.KEY_SIZE)
 	return key
 
 def main():
