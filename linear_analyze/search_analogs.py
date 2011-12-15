@@ -6,7 +6,6 @@ import sys
 sys.path.append( "../" )
 
 import blocks_internal
-import search_statistics as ss
 import bits_ops as bos
 
 def get_analogs( with_alpha, with_beta, key_bits, stats ):
@@ -54,8 +53,8 @@ def join_analogs( x, y ):
 		result.append( ( left1, left2, right, stat ) )
 	return result
 
-def search():
-	fb_stat, sb_stat, tb_stat = ss.search() 
+def search( statistics ):
+	fb_stat, sb_stat, tb_stat = statistics 
 	E_perm = blocks_internal.Permutation_Internal( "E" )
 	P_perm = blocks_internal.Permutation_Internal( "P" )
 	EXR_bo = E_perm.make_permutation_in_bit_order( range( 9, 17 ), 1 )
@@ -95,10 +94,10 @@ def search():
 	print "\nThird block, analogs:"
 	print tot_tb_analogs
 
-	return
+	return tot_fb_analogs, tot_sb_analogs, tot_tb_analogs
 
 def main():
-	search()
+	print "This module hasn't main call!"
 	return
 
 if __name__ == "__main__":
