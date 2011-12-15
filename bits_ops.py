@@ -21,3 +21,10 @@ def get_bits( source, position, num ):
 	for i in range( num ):
 		mask += 1 << i
 	return ( source >> position ) & mask
+
+def full_bin( integer, size ):
+	str = bin( integer )
+	str = str.lstrip( "0b" )
+	if len( str ) < size:
+		str = "0"*( size - len( str ) ) + str
+	return str
