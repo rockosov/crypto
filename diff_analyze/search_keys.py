@@ -10,6 +10,12 @@ import algorithm
 
 __author__ = "rockosov@gmail.com"
 
+##
+# @brief парсит файл с правильными текстами
+#
+# @param filename	[ in ] - имя файла
+#
+# @return информацию о всех частях текстов 
 def get_correct_texts( filename ):
 	try:
 		save = open( filename, "r" )
@@ -40,6 +46,14 @@ def get_correct_texts( filename ):
 	save.close()
 	return out
 
+##
+# @brief ищет валидные пары A1 и A2 
+#
+# @param dA		[ in ] - дифференциал dA
+# @param dC		[ in ] - дифференциал dC
+# @param block		[ in ] - блок замены
+#
+# @return пары A1, A2
 def search_valid_pairs( dA, dC, block ):
 	result = list()
 	for a1 in range( 16 ):
@@ -54,12 +68,28 @@ def search_valid_pairs( dA, dC, block ):
 			result.append( ( a1, a2 ) )
 	return result
 
+##
+# @brief ищет статистику по всем возможным ключам	
+#
+# @param possible	[ in ] - возможные пары А1-А2
+# @param EIn		[ in ] - значение E( In )
+# @param keys		[ out ] - там собираем статистику
+#
+# @return статистику
 def get_keys( possible, EIn, keys ):
 	for value in possible:
 		cur_key = value[ 0 ] ^ EIn
 		keys[ cur_key ] += 1
 	return keys
 
+##
+# @brief ищет все возможные варианты подключа ( в вероятностях )
+#
+# @param general_data	[ in ] - экземпляры блоков
+# @param infoIn		[ in ] - информация о входах в блоки
+# @param infoOut	[ in ] - информация о выходах блоков
+#
+# @return варианты подключа
 def search_k( general_data, infoIn, infoOut ):
 	f_block, s_block, t_block, E_perm, P_perm = general_data
 
@@ -92,6 +122,12 @@ def search_k( general_data, infoIn, infoOut ):
 			result_keys[ i ] = get_keys( possible, EIni, result_keys[ i ] )
 	return result_keys
 
+##
+# @brief возвращает максимально вероятные ключи
+#
+# @param keys		[ in ] - варианты ключа
+#
+# @return pass
 def get_max_possible_keys( keys ):
 	for index in range( len( keys ) ):
 		current_max = max( keys[ index ] )
@@ -107,6 +143,13 @@ def get_max_possible_keys( keys ):
 				result_keys.append( ( i << 8 ) | ( j << 4 ) | ( k ) )
 	return result_keys
 
+##
+# @brief формирует все возможные сочетания K1 и K3
+#
+# @param K1		[ in ] - pass
+# @param K3		[ in ] - pass
+#
+# @return 
 def form_possible_keys( K1, K3 ):
 	result_keys = list()
 	for i in K1:
@@ -114,6 +157,12 @@ def form_possible_keys( K1, K3 ):
 			result_keys.append( ( i << 12 ) | ( j ) )
 	return result_keys
 	
+##
+# @brief ищет все возможные ключи
+#
+# @param general_data	[ in ] - экземпляры блоков
+#
+# @return pass
 def search( general_data ):
 	infoXL, infoXR, infoYL, infoYR = get_correct_texts( conf.FILENAME_COR_TEXTS )
 
@@ -127,6 +176,12 @@ def search( general_data ):
 
 	return K
 
+##
+# @brief поиск правильного ключа
+#
+# @param keys		[ in ] - варанты ключей
+#
+# @return правильный ключ
 def search_right_key( keys ):
 	infoXL, infoXR, infoYL, infoYR = get_correct_texts( conf.FILENAME_COR_TEXTS )
 
@@ -138,7 +193,7 @@ def search_right_key( keys ):
 		current_cipher_text = algorithm.encrypt( plain_text, current_key )
 		if current_cipher_text == cipher_text:
 			result_key = current_key
-			print "result_key =", result_key
+			print "result_key =", bits_ops.full_bin( result_key, conf.KEY_SIZE )
 	if result_key == 0:
 		print "Can't find right key!"
 

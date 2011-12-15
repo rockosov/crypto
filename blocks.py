@@ -53,7 +53,13 @@ class Block ( object ):
 		else:
 			return self.content[bits >> 3][bits & 7]
 
+##
+# @brief описывает перестановки 
 class Permutation ( object ):
+	##
+	# @brief конструктор
+	#
+	# @param initial_name		[ in ] - имя перестановки ( E - Extended; P - prime )
 	def __init__( self, initial_name ):
 		if initial_name == "E":
 			self.direct = conf.PERM_EXT
@@ -64,6 +70,12 @@ class Permutation ( object ):
 		self.inverse = self.__inverse( self.direct )
 		return
 
+	##
+	# @brief вычисляет инверсный порядок перестановки
+	#
+	# @param direct		[ in ] - прямой порядок
+	#
+	# @return непосредственно порядок
 	def __inverse( self, direct):
 		result = range( max( direct ) )
 		for i in range( len( result ) ):
@@ -72,6 +84,13 @@ class Permutation ( object ):
 			result[ direct[ i ] - 1 ].append(i + 1)
 		return result
 
+	##
+	# @brief главная функция перестановки
+	#
+	# @param bits		[ in ] - биты для перестановки
+	# @param mode		[ in ] - режим ( 1 - прямая перестановка; -1 - обратная перестановка )
+	#
+	# @return переставленные биты
 	def make_permutation( self, bits, mode ):
 		result = 0
 		direct_size = len( self.direct )

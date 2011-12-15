@@ -1,11 +1,21 @@
+# coding=utf-8
+
 import sys
-from blocks_internal import *
-from blocks import Permutation
 
 sys.path.append( "../" )
 
+from blocks_internal import *
+from blocks import Permutation
+import bits_ops as bops
+import config as cfg
+
 __author__ = "rockosov@gmail.com"
 
+##
+# @brief ищет характеристику для генерации правильных текстов
+#	строит блоки и заполняют всю нужную информацию о них
+#
+# @return экзмепляры блоков
 def search():
 	f_block = Block_Internal( 1 )
 	s_block = Block_Internal( 2 ) 
@@ -23,7 +33,7 @@ def search():
 	print "a_output of 3 block:", t_block.a_output
 	print
 
-	print "Buid and print diff_table:"
+	print "Build and print diff_table:"
 	f_block.build_diff_table()
 	f_block.print_diff_table()
 	s_block.build_diff_table()
@@ -52,12 +62,6 @@ def search():
 	print E_perm.direct
 	print "INVERSE"
 	print E_perm.inverse
-	result = 12
-	print bin( result )
-	result = E_perm.make_permutation( result, 1 )
-	print bin( result )
-	result = E_perm.make_permutation( result, -1 )
-	print bin( result )
 	print "P-permutation:"
 	print "DIRECT"
 	print P_perm.direct
@@ -82,7 +86,7 @@ def search():
 	dXR = E_perm.make_permutation( dA, -1 )
 	dXL = P_perm.make_permutation( dC, 1 )
 	print "Characteristic:"
-	print "dXR ( dYR ) =", bin( dXR ), " dXL =", bin( dXL )
+	print "dXR ( dYR ) =", bops.full_bin( dXR, cfg.HALF_BLOCK_SIZE ), " dXL =", bops.full_bin( dXL, cfg.HALF_BLOCK_SIZE )
 
 	return f_block, s_block, t_block, E_perm, P_perm
 
