@@ -58,8 +58,6 @@ def search_right_key( text ):
 	
 	plain_text, cipher_text = text
 
-	print len( possible_keys )
-
 	for current_key in possible_keys:
 			current_cipher_text = algorithm.encrypt( plain_text, current_key )
 			if current_cipher_text == cipher_text:
